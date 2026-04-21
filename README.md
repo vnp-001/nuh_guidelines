@@ -12,34 +12,6 @@ Clinical guidelines quick-reference app for Nottingham University Hospitals.
 | `icon-192.png` | App icon (home screen, small) |
 | `icon-512.png` | App icon (splash screen, large) |
 
----
-
-## How to deploy (5 minutes, one-time)
-
-### Step 1 — GitHub account
-Go to **github.com** → Sign up (free). Skip if you already have one.
-
-### Step 2 — Create a repository
-- Click **+** (top right) → **New repository**
-- Name: `nuh-guidelines` (or anything you like)
-- Set to **Public**
-- Tick **Add a README file**
-- Click **Create repository**
-
-### Step 3 — Upload all 5 files
-- Inside the repo, click **Add file → Upload files**
-- Drag all 5 files from this folder: `index.html`, `manifest.json`, `sw.js`, `icon-192.png`, `icon-512.png`
-- Click **Commit changes**
-
-### Step 4 — Enable GitHub Pages
-- Click **Settings** tab
-- Left sidebar → **Pages**
-- Under Source: select **Deploy from a branch**
-- Branch: **main** → folder: **/ (root)**
-- Click **Save**
-- Wait 2 minutes → your URL appears at the top of the Pages section
-
-Your URL will be: `https://vnp-001.github.io/nuh-guidelines`
 
 ---
 
