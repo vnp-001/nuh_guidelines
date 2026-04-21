@@ -39,7 +39,7 @@ Go to **github.com** → Sign up (free). Skip if you already have one.
 - Click **Save**
 - Wait 2 minutes → your URL appears at the top of the Pages section
 
-Your URL will be: `https://YOUR-USERNAME.github.io/nuh-guidelines`
+Your URL will be: `https://vnp-001.github.io/nuh-guidelines`
 
 ---
 
