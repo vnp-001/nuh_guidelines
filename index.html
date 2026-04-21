@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NUH · ClinPath Guidelines</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0b0e18;--s1:#111624;--card:#161d2e;--card2:#1c2438;
+  --border:#222d48;--border2:#2a3860;
+  --accent:#4f8ef7;--green:#22c984;--amber:#f5a623;--red:#e85454;--purple:#8b7cf8;--teal:#1dc9a0;
+  --text:#e8eaf6;--muted:#5d6a94;--muted2:#8891b8;--faint:#141929;
+  --font:'DM Sans',system-ui,sans-serif;--mono:'DM Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;}
+.app{display:flex;height:100vh;overflow:hidden;}
+
+/* ── SIDEBAR ── */
+.sidebar{width:220px;flex-shrink:0;background:var(--s1);border-right:1px solid var(--border);display:flex;flex-direction:column;}
+.sb-logo{padding:14px 16px;border-bottom:1px solid var(--border);}
+.sb-logo-badge{font-size:9px;font-weight:700;letter-spacing:.1em;color:var(--accent);background:#4f8ef718;border:1px solid #4f8ef730;padding:2px 8px;border-radius:4px;display:inline-block;margin-bottom:5px;}
+.sb-logo-title{font-size:14px;font-weight:600;color:var(--text);}
+.sb-logo-sub{font-size:10px;color:var(--muted);margin-top:1px;}
+.sb-search{padding:10px 12px;border-bottom:1px solid var(--border);}
+.sb-search-box{width:100%;background:var(--faint);border:1px solid var(--border);border-radius:7px;padding:6px 10px;font-size:12px;color:var(--text);font-family:var(--font);outline:none;display:flex;align-items:center;gap:6px;}
+.sb-search-box:focus-within{border-color:var(--accent);}
+.sb-search-box input{background:none;border:none;outline:none;font-family:var(--font);font-size:12px;color:var(--text);flex:1;}
+.sb-search-box input::placeholder{color:var(--muted);}
+.sb-sr{margin-top:6px;}
+.sb-sr-item{padding:5px 8px;border-radius:5px;font-size:11px;color:var(--accent);cursor:pointer;transition:background .12s;}
+.sb-sr-item:hover{background:var(--faint);}
+.sb-sr-none{font-size:11px;color:var(--muted);padding:5px 8px;}
+.sb-scroll{flex:1;overflow-y:auto;padding:10px 0;scrollbar-width:none;}
+.sb-scroll::-webkit-scrollbar{display:none;}
+.sb-section{padding:0 10px;margin-bottom:12px;}
+.sb-label{font-size:9px;font-weight:700;letter-spacing:.1em;color:var(--muted);padding:0 6px;margin-bottom:4px;text-transform:uppercase;}
+.sb-item{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:7px;cursor:pointer;font-size:12px;color:var(--muted2);border:none;background:none;width:100%;text-align:left;font-family:var(--font);transition:all .12s;}
+.sb-item:hover{background:var(--card);color:var(--text);}
+.sb-item.active{background:var(--card);color:var(--text);font-weight:500;}
+.sb-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.sb-item-badge{margin-left:auto;font-size:9px;padding:1px 5px;border-radius:3px;background:#f5a62320;color:var(--amber);font-weight:600;}
+
+/* ── MAIN ── */
+.main{flex:1;overflow-y:auto;min-width:0;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
+.main::-webkit-scrollbar{width:4px;}
+.main::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+.page{display:none;padding:24px;}
+.page.active{display:block;}
+
+/* ── HOME ── */
+.home-title{font-size:22px;font-weight:300;color:var(--text);margin-bottom:4px;}
+.home-title strong{font-weight:600;}
+.home-sub{font-size:13px;color:var(--muted2);margin-bottom:20px;}
+.section-label{font-size:9px;font-weight:700;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:10px;}
+.fav-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+.fav-chip{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:20px;background:var(--card);border:1px solid var(--border2);cursor:pointer;font-size:12px;font-weight:500;color:var(--text);transition:border-color .15s;}
+.fav-chip:hover{border-color:var(--border);}
+.fav-star{font-size:11px;color:var(--amber);}
+.spec-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin-bottom:20px;}
+.spec-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;cursor:pointer;transition:border-color .15s;}
+.spec-card:hover{border-color:var(--border2);}
+.spec-card-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;}
+.spec-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.spec-count{font-size:11px;color:var(--muted);}
+.spec-name{font-size:14px;font-weight:600;color:var(--text);margin-bottom:6px;}
+.spec-tags{display:flex;gap:5px;flex-wrap:wrap;}
+.spec-tag{font-size:10px;color:var(--muted2);background:var(--card2);padding:2px 7px;border-radius:4px;}
+.spec-tag-amber{font-size:10px;color:var(--amber);background:#f5a62318;padding:2px 7px;border-radius:4px;}
+.recent-row{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:border-color .15s;}
+.recent-row:hover{border-color:var(--border2);}
+.rr-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.rr-info{flex:1;min-width:0;}
+.rr-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:1px;}
+.rr-sub{font-size:11px;color:var(--muted);}
+.rr-badge{font-size:10px;padding:2px 7px;border-radius:4px;font-weight:600;}
+.badge-ok{background:#22c98420;color:var(--green);}
+.badge-rev{background:#f5a62320;color:var(--amber);}
+
+/* ── SPEC PAGE ── */
+.back-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--muted2);cursor:pointer;padding:4px 0;border:none;background:none;font-family:var(--font);margin-bottom:12px;}
+.back-btn:hover{color:var(--text);}
+.spec-page-title{font-size:20px;font-weight:600;color:var(--text);margin-bottom:14px;}
+.gl-row{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:11px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:border-color .15s;}
+.gl-row:hover{border-color:var(--border2);}
+.gl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.gl-info{flex:1;min-width:0;}
+.gl-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px;}
+.gl-meta{font-size:11px;color:var(--muted);}
+.gl-actions{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.gl-btn{font-size:11px;padding:3px 9px;border-radius:5px;border:1px solid var(--border2);background:var(--card2);color:var(--muted2);cursor:pointer;font-family:var(--font);transition:all .12s;}
+.gl-btn:hover{color:var(--text);border-color:var(--border);}
+.gl-btn-open{border-color:var(--accent);background:#4f8ef718;color:var(--accent);}
+.fav-star-btn{font-size:14px;cursor:pointer;background:none;border:none;padding:2px 4px;color:var(--amber);}
+
+/* ── GUIDELINE VIEW ── */
+.gl-view-header{margin-bottom:14px;}
+.gl-view-title{font-size:20px;font-weight:600;color:var(--text);margin-bottom:5px;}
+.gl-view-meta{display:flex;gap:7px;align-items:center;flex-wrap:wrap;}
+.gl-meta-badge{font-size:10px;padding:2px 8px;border-radius:4px;font-weight:600;}
+.b-purple{background:#8b7cf820;color:var(--purple);}
+.b-gray{background:var(--card2);color:var(--muted2);border:1px solid var(--border);}
+.b-green{background:#22c98420;color:var(--green);}
+.b-blue{background:#4f8ef720;color:var(--accent);}
+.gl-view-actions{display:flex;gap:7px;margin-top:10px;}
+.gl-action-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 12px;border-radius:7px;border:1px solid var(--border2);background:var(--card2);color:var(--muted2);cursor:pointer;font-family:var(--font);transition:all .12s;}
+.gl-action-btn:hover{color:var(--text);border-color:var(--border);}
+.gl-action-btn.pdf{border-color:#e8545450;background:#e8545412;color:#f87171;}
+
+/* Nav tabs */
+.gl-nav{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:14px;overflow-x:auto;scrollbar-width:none;}
+.gl-nav::-webkit-scrollbar{display:none;}
+.gl-nav-btn{padding:8px 14px;font-size:11px;font-weight:500;color:var(--muted2);cursor:pointer;border:none;background:none;font-family:var(--font);white-space:nowrap;border-bottom:2px solid transparent;transition:all .12s;flex-shrink:0;}
+.gl-nav-btn:hover{color:var(--text);}
+.gl-nav-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
+
+/* Cards */
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:10px;}
+.card-warn{border-left:3px solid var(--red);}
+.card-info{border-left:3px solid var(--accent);}
+.card-green{border-left:3px solid var(--green);}
+.card-amber{border-left:3px solid var(--amber);}
+.card-purple{border-left:3px solid var(--purple);}
+.card-teal{border-left:3px solid var(--teal);}
+.card-head{padding:7px 12px;font-size:9px;font-weight:700;color:var(--muted);letter-spacing:.09em;text-transform:uppercase;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.card-body{padding:10px 12px;}
+.alert-box{background:#e8545418;border:1px solid #e8545433;border-radius:8px;padding:9px 12px;margin-bottom:10px;font-size:12px;color:#f87171;font-weight:500;line-height:1.5;}
+.info-box{background:#4f8ef718;border:1px solid #4f8ef730;border-radius:8px;padding:9px 12px;margin-bottom:10px;font-size:12px;color:#93bbfc;line-height:1.5;}
+.amber-box{background:#f5a62318;border:1px solid #f5a62330;border-radius:8px;padding:9px 12px;margin-bottom:10px;font-size:12px;color:#fbbf24;line-height:1.5;}
+.dt{width:100%;border-collapse:collapse;font-size:12px;}
+.dt td{padding:5px 0;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;}
+.dt tr:last-child td{border-bottom:none;}
+.dt .l{color:var(--muted2);width:46%;}
+.dt .v{font-weight:500;color:var(--text);}
+.dt .vr{font-weight:600;color:var(--red);}
+.dt .vg{font-weight:600;color:var(--green);}
+.dt .va{font-weight:600;color:var(--amber);}
+.dt .vi{font-weight:600;color:var(--accent);}
+.step{display:flex;gap:8px;align-items:flex-start;margin-bottom:7px;}
+.step:last-child{margin-bottom:0;}
+.step-n{width:19px;height:19px;border-radius:50%;background:#4f8ef720;color:var(--accent);font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.step-t{font-size:12px;color:var(--text);line-height:1.5;}
+.hl{font-weight:600;}
+.divider{height:1px;background:var(--border);margin:10px 0;}
+.chip-row{display:flex;flex-wrap:wrap;gap:5px;}
+.chip{font-size:10px;padding:2px 8px;border-radius:4px;border:1px solid;}
+.chip-purple{background:#8b7cf818;border-color:#8b7cf830;color:var(--purple);}
+.chip-red{background:#e8545418;border-color:#e8545430;color:var(--red);}
+.chip-amber{background:#f5a62318;border-color:#f5a62330;color:var(--amber);}
+.chip-green{background:#22c98418;border-color:#22c98430;color:var(--green);}
+
+/* Emetic risk table */
+.risk-grid{display:flex;gap:6px;flex-wrap:wrap;}
+.risk-band{flex:1;min-width:110px;border-radius:7px;padding:9px 10px;border:1px solid;}
+.risk-high{background:#e8545412;border-color:#e8545430;}
+.risk-mod{background:#f5a62312;border-color:#f5a62330;}
+.risk-low{background:#4f8ef712;border-color:#4f8ef730;}
+.risk-min{background:#22c98412;border-color:#22c98430;}
+.risk-label{font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:4px;}
+.risk-high .risk-label{color:var(--red);}
+.risk-mod .risk-label{color:var(--amber);}
+.risk-low .risk-label{color:var(--accent);}
+.risk-min .risk-label{color:var(--green);}
+.risk-pct{font-size:12px;font-weight:600;margin-bottom:5px;}
+.risk-high .risk-pct{color:var(--red);}
+.risk-mod .risk-pct{color:var(--amber);}
+.risk-low .risk-pct{color:var(--accent);}
+.risk-min .risk-pct{color:var(--green);}
+.risk-drugs{font-size:10px;line-height:1.5;}
+.risk-high .risk-drugs{color:#f87171;}
+.risk-mod .risk-drugs{color:#fbbf24;}
+.risk-low .risk-drugs{color:#93bbfc;}
+.risk-min .risk-drugs{color:#86efac;}
+
+/* Antiemetic regimen bands */
+.reg-row{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap;}
+.reg-col{flex:1;min-width:140px;border-radius:7px;padding:9px 10px;border:1px solid var(--border);background:var(--card2);}
+.reg-col-title{font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
+.reg-col-body{font-size:11px;color:var(--text);line-height:1.5;}
+
+/* Drug info accordion */
+.drug-item{border-bottom:1px solid var(--border);}
+.drug-item:last-child{border-bottom:none;}
+.drug-item-head{padding:9px 12px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-size:12px;font-weight:500;color:var(--text);}
+.drug-item-head:hover{background:var(--card2);}
+.drug-item-body{padding:0 12px 10px;font-size:11px;color:var(--muted2);line-height:1.6;display:none;}
+.drug-item-body.open{display:block;}
+.drug-chevron{color:var(--muted);font-size:11px;transition:transform .2s;}
+.drug-chevron.open{transform:rotate(90deg);}
+
+/* CTCAE grades */
+.grade-row{display:flex;gap:5px;flex-wrap:wrap;}
+.grade-chip{flex:1;min-width:80px;border-radius:6px;padding:8px 10px;text-align:center;}
+.g0{background:var(--card2);border:1px solid var(--border);}
+.g1{background:#22c98412;border:1px solid #22c98430;}
+.g2{background:#f5a62312;border:1px solid #f5a62330;}
+.g3{background:#e8545412;border:1px solid #e8545430;}
+.g4{background:#cc000018;border:1px solid #cc000030;}
+.grade-num{font-size:14px;font-weight:700;margin-bottom:2px;}
+.g0 .grade-num{color:var(--muted2);}
+.g1 .grade-num{color:var(--green);}
+.g2 .grade-num{color:var(--amber);}
+.g3 .grade-num{color:var(--red);}
+.g4 .grade-num{color:#cc0000;}
+.grade-text{font-size:9px;line-height:1.3;}
+.g0 .grade-text{color:var(--muted);}
+.g1 .grade-text{color:#86efac;}
+.g2 .grade-text{color:#fbbf24;}
+.g3 .grade-text{color:#f87171;}
+.g4 .grade-text{color:#fca5a5;}
+
+/* Pleurodesis steps */
+.proc-step{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--border);}
+.proc-step:last-child{border-bottom:none;}
+.proc-num{width:26px;height:26px;border-radius:50%;background:var(--card2);border:1px solid var(--border2);color:var(--muted2);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.proc-icon{font-size:15px;flex-shrink:0;margin-top:1px;}
+.proc-body{flex:1;}
+.proc-action{font-size:12px;font-weight:500;color:var(--text);margin-bottom:2px;}
+.proc-rationale{font-size:11px;color:var(--muted2);line-height:1.5;}
+.proc-warning{font-size:11px;color:var(--red);font-weight:600;margin-top:3px;}
+
+/* Equipment list */
+.equip-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.equip-item{display:flex;align-items:center;gap:8px;background:var(--card2);border:1px solid var(--border);border-radius:7px;padding:7px 10px;font-size:12px;color:var(--text);}
+.equip-icon{font-size:13px;flex-shrink:0;}
+</style>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0b0e18">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="NUH Guidelines">
+  <link rel="apple-touch-icon" href="icon-192.png">
+</head>
+<body>
+<div class="app">
+
+<!-- ── SIDEBAR ── -->
+<div class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-badge">NUH · ClinPath</div>
+    <div class="sb-logo-title">Clinical Guidelines</div>
+    <div class="sb-logo-sub">Quick reference · v1.0</div>
+  </div>
+  <div class="sb-search">
+    <div class="sb-search-box">
+      <span style="color:var(--muted);font-size:12px;">🔍</span>
+      <input type="text" placeholder="Search guidelines..." id="sb-si" oninput="sbSearch(this.value)">
+    </div>
+    <div class="sb-sr" id="sb-sr" style="display:none;"></div>
+  </div>
+  <div class="sb-scroll">
+    <div class="sb-section">
+      <div class="sb-label">Navigation</div>
+      <button class="sb-item active" id="nav-home" onclick="showPage('home')">
+        <span style="font-size:13px;">⌂</span> Home
+      </button>
+    </div>
+    <div class="sb-section">
+      <div class="sb-label">Favourites</div>
+      <button class="sb-item" onclick="openGL('ns')" id="fav-ns"><span class="sb-dot" style="background:var(--purple);"></span> Neutropenic Sepsis</button>
+      <button class="sb-item" onclick="openGL('cinv')" id="fav-cinv"><span class="sb-dot" style="background:var(--amber);"></span> CINV</button>
+    </div>
+    <div class="sb-section">
+      <div class="sb-label">Specialities</div>
+      <button class="sb-item" onclick="openSpec('oncology')" id="nav-oncology"><span class="sb-dot" style="background:var(--purple);"></span> Oncology</button>
+      <button class="sb-item" onclick="openSpec('resp')" id="nav-resp"><span class="sb-dot" style="background:var(--teal);"></span> Respiratory</button>
+      <button class="sb-item" onclick="openSpec('diabetes')" id="nav-diabetes"><span class="sb-dot" style="background:var(--green);"></span> Diabetes</button>
+      <button class="sb-item" onclick="openSpec('palliative')" id="nav-palliative"><span class="sb-dot" style="background:var(--amber);"></span> Palliative Care</button>
+      <button class="sb-item" onclick="openSpec('acutemd')" id="nav-acutemd"><span class="sb-dot" style="background:var(--accent);"></span> Acute Medicine</button>
+    </div>
+    <div class="sb-section">
+      <div class="sb-label">Tools</div>
+      <button class="sb-item" onclick="openGL('calc')" id="nav-calc"><span class="sb-dot" style="background:var(--muted);"></span> Calculators</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── MAIN ── -->
+<div class="main" id="main">
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <div class="home-title">Clinical Guidelines<br><strong>ClinPath · NUH</strong></div>
+  <div class="home-sub">Nottingham University Hospitals · Quick reference · All guidelines stripped to clinical content</div>
+
+  <div class="section-label">Favourites</div>
+  <div class="fav-row">
+    <div class="fav-chip" onclick="openGL('ns')"><span class="fav-star">★</span><span class="sb-dot" style="background:var(--purple);"></span> Neutropenic Sepsis</div>
+    <div class="fav-chip" onclick="openGL('cinv')"><span class="fav-star">★</span><span class="sb-dot" style="background:var(--amber);"></span> CINV</div>
+    <div class="fav-chip" onclick="openGL('hhs')"><span class="fav-star">★</span><span class="sb-dot" style="background:var(--green);"></span> HHS</div>
+    <div class="fav-chip" onclick="openGL('dka')"><span class="fav-star">★</span><span class="sb-dot" style="background:var(--accent);"></span> DKA</div>
+  </div>
+
+  <div class="section-label">Specialities</div>
+  <div class="spec-grid">
+    <div class="spec-card" onclick="openSpec('oncology')">
+      <div class="spec-card-head"><div class="spec-icon" style="background:#8b7cf820;">🧬</div><span class="spec-count">4 guidelines</span></div>
+      <div class="spec-name">Oncology</div>
+      <div class="spec-tags"><span class="spec-tag">Neutropenic Sepsis</span><span class="spec-tag">CINV</span><span class="spec-tag">Diarrhoea</span></div>
+    </div>
+    <div class="spec-card" onclick="openSpec('resp')">
+      <div class="spec-card-head"><div class="spec-icon" style="background:#1dc9a020;">🫁</div><span class="spec-count">1 guideline</span></div>
+      <div class="spec-name">Respiratory</div>
+      <div class="spec-tags"><span class="spec-tag">Chemical Pleurodesis</span></div>
+    </div>
+    <div class="spec-card" onclick="openSpec('diabetes')">
+      <div class="spec-card-head"><div class="spec-icon" style="background:#22c98420;">🩺</div><span class="spec-count">2 guidelines</span></div>
+      <div class="spec-name">Diabetes & Endocrinology</div>
+      <div class="spec-tags"><span class="spec-tag">HHS</span><span class="spec-tag">DKA</span></div>
+    </div>
+    <div class="spec-card" onclick="openSpec('acutemd')">
+      <div class="spec-card-head"><div class="spec-icon" style="background:#4f8ef720;">⚡</div><span class="spec-count">2 guidelines</span><span class="spec-tag-amber">2 placeholders</span></div>
+      <div class="spec-name">Acute Medicine</div>
+      <div class="spec-tags"><span class="spec-tag">Sepsis</span><span class="spec-tag">AKI</span></div>
+    </div>
+  </div>
+
+  <div class="section-label">Recently added</div>
+  <div class="recent-row" onclick="openGL('pleurodesis')">
+    <div class="rr-dot" style="background:var(--teal);"></div>
+    <div class="rr-info"><div class="rr-title">Chemical Pleurodesis — Nursing & Clinical Procedure Guide</div><div class="rr-sub">Respiratory · Added today</div></div>
+    <span class="rr-badge badge-ok">New</span>
+  </div>
+  <div class="recent-row" onclick="openGL('diarrhoea')">
+    <div class="rr-dot" style="background:var(--purple);"></div>
+    <div class="rr-info"><div class="rr-title">Management of Diarrhoea Post Chemo/RT</div><div class="rr-sub">Oncology · REF:1837 · v1</div></div>
+    <span class="rr-badge badge-ok">New</span>
+  </div>
+  <div class="recent-row" onclick="openGL('cinv')">
+    <div class="rr-dot" style="background:var(--amber);"></div>
+    <div class="rr-info"><div class="rr-title">Antiemetics in Oncology (CINV)</div><div class="rr-sub">Oncology · REF:1490 · v7</div></div>
+    <span class="rr-badge badge-ok">New</span>
+  </div>
+  <div class="recent-row" onclick="openGL('ns')">
+    <div class="rr-dot" style="background:var(--purple);"></div>
+    <div class="rr-info"><div class="rr-title">Febrile Neutropenia in Adult Oncology</div><div class="rr-sub">Oncology · REF:1538 · v7.0</div></div>
+    <span class="rr-badge badge-ok">Current</span>
+  </div>
+</div>
+
+<!-- ONCOLOGY SPEC -->
+<div class="page" id="page-spec-oncology">
+  <button class="back-btn" onclick="showPage('home')">← Home</button>
+  <div class="spec-page-title">Oncology</div>
+  <div class="gl-row" onclick="openGL('ns')"><div class="gl-dot" style="background:var(--purple);"></div><div class="gl-info"><div class="gl-title">Febrile Neutropenia in Adult Oncology</div><div class="gl-meta">REF:1538 · v7.0 · Review Jul 2027</div></div><div class="gl-actions"><span class="rr-badge badge-ok">Current</span><button class="fav-star-btn">★</button><button class="gl-btn">↗ PDF</button><button class="gl-btn gl-btn-open">Open →</button></div></div>
+  <div class="gl-row" onclick="openGL('cinv')"><div class="gl-dot" style="background:var(--amber);"></div><div class="gl-info"><div class="gl-title">Antiemetics in Oncology — CINV</div><div class="gl-meta">REF:1490 · v7 · Review Feb 2028</div></div><div class="gl-actions"><span class="rr-badge badge-ok">Current</span><button class="fav-star-btn">★</button><button class="gl-btn">↗ PDF</button><button class="gl-btn gl-btn-open">Open →</button></div></div>
+  <div class="gl-row" onclick="openGL('diarrhoea')"><div class="gl-dot" style="background:var(--purple);"></div><div class="gl-info"><div class="gl-title">Management of Diarrhoea Post Chemo/Radiotherapy</div><div class="gl-meta">REF:1837 · Written May 2020 · Review overdue</div></div><div class="gl-actions"><span class="rr-badge badge-rev">Review due</span><button class="fav-star-btn">☆</button><button class="gl-btn">↗ PDF</button><button class="gl-btn gl-btn-open">Open →</button></div></div>
+  <div class="gl-row"><div class="gl-dot" style="background:var(--muted);"></div><div class="gl-info"><div class="gl-title">Targeted Therapy Toxicity</div><div class="gl-meta">Coming soon</div></div><div class="gl-actions"><span class="rr-badge" style="background:var(--card2);color:var(--muted);">Pending</span></div></div>
+</div>
+
+<!-- RESP SPEC -->
+<div class="page" id="page-spec-resp">
+  <button class="back-btn" onclick="showPage('home')">← Home</button>
+  <div class="spec-page-title">Respiratory</div>
+  <div class="gl-row" onclick="openGL('pleurodesis')"><div class="gl-dot" style="background:var(--teal);"></div><div class="gl-info"><div class="gl-title">Chemical Pleurodesis — Nursing & Clinical Procedure Guide</div><div class="gl-meta">NUH Respiratory · Step-by-step procedure</div></div><div class="gl-actions"><span class="rr-badge badge-ok">Current</span><button class="fav-star-btn">☆</button><button class="gl-btn">↗ PDF</button><button class="gl-btn gl-btn-open">Open →</button></div></div>
+</div>
+
+<!-- DIABETES SPEC -->
+<div class="page" id="page-spec-diabetes">
+  <button class="back-btn" onclick="showPage('home')">← Home</button>
+  <div class="spec-page-title">Diabetes & Endocrinology</div>
+  <div class="gl-row" onclick="openGL('hhs')"><div class="gl-dot" style="background:var(--green);"></div><div class="gl-info"><div class="gl-title">Management of HHS in Adults</div><div class="gl-meta">v5 · Review Apr 2028</div></div><div class="gl-actions"><span class="rr-badge badge-ok">Current</span><button class="fav-star-btn">★</button><button class="gl-btn">↗ PDF</button><button class="gl-btn gl-btn-open">Open →</button></div></div>
+  <div class="gl-row" onclick="openGL('dka')"><div class="gl-dot" style="background:var(--accent);"></div><div class="gl-info"><div class="gl-title">Management of DKA in Adults</div><div class="gl-meta">v8 · Review Apr 2028</div></div><div class="gl-actions"><span class="rr-badge badge-ok">Current</span><button class="fav-star-btn">★</button><button class="gl-btn">↗ PDF</button><button class="gl-btn gl-btn-open">Open →</button></div></div>
+</div>
+
+<!-- PALLIATIVE SPEC -->
+<div class="page" id="page-spec-palliative">
+  <button class="back-btn" onclick="showPage('home')">← Home</button>
+  <div class="spec-page-title">Palliative Care</div>
+  <div style="padding:24px;text-align:center;color:var(--muted);font-size:13px;">Guidelines coming soon — upload PDFs to add them.</div>
+</div>
+
+<!-- ACUTE MED SPEC -->
+<div class="page" id="page-spec-acutemd">
+  <button class="back-btn" onclick="showPage('home')">← Home</button>
+  <div class="spec-page-title">Acute Medicine</div>
+  <div style="padding:24px;text-align:center;color:var(--muted);font-size:13px;">Guidelines coming soon — upload PDFs to add them.</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     GUIDELINE: NEUTROPENIC SEPSIS
+══════════════════════════════════════════════════════ -->
+<div class="page" id="page-ns">
+  <button class="back-btn" onclick="openSpec('oncology')">← Oncology</button>
+  <div class="gl-view-header">
+    <div class="gl-view-title">Febrile Neutropenia in Adult Oncology</div>
+    <div class="gl-view-meta">
+      <span class="gl-meta-badge b-purple">Oncology</span>
+      <span class="gl-meta-badge b-gray">REF:1538 · v7.0</span>
+      <span class="gl-meta-badge b-green">Current · Review Jul 2027</span>
+    </div>
+    <div class="gl-view-actions">
+      <button class="gl-action-btn">☆ Favourite</button>
+      <button class="gl-action-btn pdf">↗ Full PDF</button>
+    </div>
+  </div>
+  <div class="gl-nav">
+    <button class="gl-nav-btn active" onclick="glNav(this,'ns-criteria')">Criteria</button>
+    <button class="gl-nav-btn" onclick="glNav(this,'ns-abx')">Antibiotics</button>
+    <button class="gl-nav-btn" onclick="glNav(this,'ns-review')">24–48hr review</button>
+    <button class="gl-nav-btn" onclick="glNav(this,'ns-oral')">IV→Oral</button>
+    <button class="gl-nav-btn" onclick="glNav(this,'ns-other')">Other</button>
+    <button class="gl-nav-btn" onclick="glNav(this,'ns-immuno')">Immunotherapy list</button>
+  </div>
+  <div id="ns-criteria" class="ns-section">
+    <div class="alert-box">Give antibiotics <strong>BEFORE blood results</strong>. Assess, culture & treat within <strong>1 hour</strong> of admission or suspicion of fever.</div>
+    <div class="card card-warn">
+      <div class="card-head">1 · Criteria for treatment — (1) AND (2 or 3)</div>
+      <div class="card-body">
+        <table class="dt">
+          <tr><td class="l">1 · Neutropenia / suspicion</td><td class="vr">Neutrophils &lt;1.0 × 10⁹/L — or SACT within 4 weeks</td></tr>
+          <tr><td class="l">2 · Fever</td><td class="va">Temp &gt;38°C × 1, rigors, or cold/shivery. Temp 37–38°C → repeat after 1hr</td></tr>
+          <tr><td class="l">3 · Sepsis signs</td><td class="va">Tachycardia, hypotension, tachypnoea, obvious focus</td></tr>
+        </table>
+        <div class="amber-box" style="margin-top:8px;margin-bottom:0;">Pure immunotherapy regimens (pembrolizumab, nivolumab etc.) rarely cause neutropenia — use High Risk Red Sepsis pathway instead.</div>
+      </div>
+    </div>
+    <div class="card card-info">
+      <div class="card-head">2 · Immediate assessment</div>
+      <div class="card-body">
+        <div class="step"><div class="step-n">1</div><div class="step-t">2 sets blood cultures — peripheral + central line (state line type on form)</div></div>
+        <div class="step"><div class="step-n">2</div><div class="step-t">Check allergy status + previous microbiology for multi-resistant GNB risk</div></div>
+        <div class="step"><div class="step-n" style="background:#e8545420;color:var(--red);">3</div><div class="step-t"><span class="hl">Give first dose of antibiotic(s) immediately.</span> Brief history only first — full history after first dose.</div></div>
+        <div class="divider"></div>
+        <table class="dt">
+          <tr><td class="l">Bloods</td><td class="v">FBC, U&E, LFT, lactate, CRP</td></tr>
+          <tr><td class="l">Cultures</td><td class="v">Peripheral + line; MSU; stool if diarrhoea; sputum; swabs if symptomatic</td></tr>
+          <tr><td class="l">Imaging</td><td class="v">CXR</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div id="ns-abx" class="ns-section" style="display:none;">
+    <div class="alert-box">Blood cultures before antibiotics where possible — do not delay antibiotics to obtain them.</div>
+    <div class="card card-green">
+      <div class="card-head">3 · First-line antibiotic — by allergy status</div>
+      <div class="card-body">
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+          <div style="flex:1;min-width:130px;background:#22c98412;border:1px solid #22c98430;border-radius:7px;padding:9px 10px;">
+            <div style="font-size:9px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">No penicillin allergy</div>
+            <div style="font-size:12px;font-weight:700;color:var(--green);margin-bottom:4px;">Pip/Taz 4.5g IV QDS</div>
+            <div style="font-size:10px;color:#86efac;line-height:1.4;">+ Vancomycin if MRSA/line infection<br>+ Single dose Gentamicin if high-risk red sepsis or BP unresponsive</div>
+          </div>
+          <div style="flex:1;min-width:130px;background:#f5a62312;border:2px solid #f5a62350;border-radius:7px;padding:9px 10px;">
+            <div style="font-size:9px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Non-severe allergy · Severe immediate-onset · High-dose MTX · Multi-resistant GNB risk</div>
+            <div style="font-size:12px;font-weight:700;color:var(--amber);margin-bottom:4px;">Meropenem 1g IV TDS</div>
+            <div style="font-size:10px;color:#fbbf24;line-height:1.4;">+ Vancomycin if MRSA/line<br>+ Single dose Gentamicin if high-risk</div>
+          </div>
+          <div style="flex:1;min-width:130px;background:#e8545412;border:1px solid #e8545430;border-radius:7px;padding:9px 10px;">
+            <div style="font-size:9px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Severe delayed cutaneous (SJS/TEN)</div>
+            <div style="font-size:12px;font-weight:700;color:var(--red);margin-bottom:4px;">Ciprofloxacin 400mg IV TDS</div>
+            <div style="font-size:10px;color:#f87171;line-height:1.4;">+ Vancomycin (all patients)<br>+ Metronidazole 500mg IV TDS if abdo sepsis<br>+ Gentamicin if high-risk</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card card-amber">
+      <div class="card-head">Vancomycin alternative — teicoplanin</div>
+      <div class="card-body">
+        <table class="dt">
+          <tr><td class="l">Loading</td><td class="v">12 mg/kg IV (nearest 200mg) every 12hr × 3 doses</td></tr>
+          <tr><td class="l">Maintenance</td><td class="v">Once daily — refer to antibiotic website</td></tr>
+          <tr><td class="l">Red man syndrome</td><td class="vg">Not a contraindication to teicoplanin</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div id="ns-review" class="ns-section" style="display:none;">
+    <div class="info-box">Registrar or consultant must review within 24hr (including weekends). Microbiology will ring through positive cultures.</div>
+    <div class="card card-info">
+      <div class="card-head">4 · Assessment at 24–48 hours</div>
+      <div class="card-body">
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;">
+          <div style="flex:1;min-width:110px;background:#e8545412;border:1px solid #e8545430;border-radius:7px;padding:8px 10px;"><div style="font-size:9px;font-weight:700;color:var(--red);text-transform:uppercase;margin-bottom:3px;">Not improving</div><div style="font-size:10px;color:#f87171;line-height:1.5;">Continue IV ABx · FBC+U&E daily · Repeat cultures if spikes</div></div>
+          <div style="flex:1;min-width:110px;background:#f5a62312;border:1px solid #f5a62330;border-radius:7px;padding:8px 10px;"><div style="font-size:9px;font-weight:700;color:var(--amber);text-transform:uppercase;margin-bottom:3px;">Improving</div><div style="font-size:10px;color:#fbbf24;line-height:1.5;">Continue IV ABx · FBC+U&E · Consider IV→oral at 24–48hr</div></div>
+          <div style="flex:1;min-width:110px;background:#22c98412;border:1px solid #22c98430;border-radius:7px;padding:8px 10px;"><div style="font-size:9px;font-weight:700;color:var(--green);text-transform:uppercase;margin-bottom:3px;">No longer neutropenic</div><div style="font-size:10px;color:#86efac;line-height:1.5;">Review infective cause · Consider stopping · Discharge if low risk</div></div>
+        </div>
+        <div class="card-head" style="padding:0;margin-bottom:7px;border:none;">Stopping criteria — all of:</div>
+        <table class="dt">
+          <tr><td class="l">Apyrexial</td><td class="vg">&gt; 24 hours</td></tr>
+          <tr><td class="l">Haemodynamics</td><td class="vg">Stable</td></tr>
+          <tr><td class="l">Ongoing focus</td><td class="vg">No clinical evidence</td></tr>
+          <tr><td class="l">Blood cultures</td><td class="vg">Negative after therapy</td></tr>
+          <tr><td class="l">MASCC score</td><td class="v">≥21 = low risk</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="card card-warn">
+      <div class="card-head">No response &gt;48–72 hours — consider</div>
+      <div class="card-body" style="font-size:12px;color:var(--muted2);line-height:1.7;">
+        <div>• <span class="hl" style="color:var(--text);">Non-infective cause</span> — underlying disease, drug reaction</div>
+        <div>• <span class="hl" style="color:var(--text);">Multi-resistant bacteria</span> — review micro, discuss with microbiology</div>
+        <div>• <span class="hl" style="color:var(--text);">Line infection</span> — may require line removal</div>
+        <div>• <span class="hl" style="color:var(--text);">Invasive fungal infection</span> — if fever/neutropenia &gt;10 days, steroids &gt;3 weeks</div>
+        <div>• <span class="hl" style="color:var(--text);">Atypical pathogens</span> — Legionella, PCP, disseminated viral</div>
+      </div>
+    </div>
+  </div>
+  <div id="ns-oral" class="ns-section" style="display:none;">
+    <div class="card card-amber">
+      <div class="card-head">5 · IV to oral switch — after 24–48hr if low risk, no identified source</div>
+      <div class="card-body">
+        <table class="dt" style="margin-bottom:7px;">
+          <tr><td class="l">High pseudomonas risk / profoundly neutropenic</td><td class="v">Ciprofloxacin 750mg PO BD</td></tr>
+          <tr><td class="l">Low pseudomonas risk, neutrophils recovering</td><td class="v">Co-amoxiclav 625mg PO TDS</td></tr>
+          <tr><td class="l">Penicillin allergic</td><td class="v">Levofloxacin 500mg PO OD</td></tr>
+        </table>
+        <div style="font-size:10px;color:var(--muted2);">Total course 5 days. Source identified → use relevant NUH antibiotic guideline.</div>
+      </div>
+    </div>
+    <div class="card card-warn">
+      <div class="card-head">Fluoroquinolone cautions</div>
+      <div class="card-body" style="font-size:12px;color:var(--muted2);line-height:1.7;">
+        <div>• High <span class="hl" style="color:var(--text);">C. difficile risk</span> — consult microbiology if known C. diff carrier</div>
+        <div>• MRSA selection — previous MRSA carriers need microbiology approval</div>
+        <div>• If on quinolone prophylaxis — discuss with microbiology</div>
+        <div>• Rare: long-lasting disabling side effects (months to years)</div>
+      </div>
+    </div>
+  </div>
+  <div id="ns-other" class="ns-section" style="display:none;">
+    <div class="card card-purple"><div class="card-head">Mouth ulceration</div><div class="card-body"><table class="dt"><tr><td class="l">Oral candidiasis</td><td class="v">Fluconazole 100mg PO OD × 14 days</td></tr><tr><td class="l">Herpes simplex</td><td class="v">Aciclovir 400mg PO 5× daily × min 5 days</td></tr></table></div></div>
+    <div class="card card-amber"><div class="card-head">G-CSF — not routinely indicated</div><div class="card-body" style="font-size:12px;color:var(--muted2);line-height:1.7;">Not shown to reduce fever duration or antibiotic use. May be appropriate if ≥2 of: neutrophils &lt;0.1 × 10⁹/L with fever &gt;10 days; uncontrolled primary disease; pneumonia; hypotension; multi-organ dysfunction; invasive fungal infection.</div></div>
+    <div class="card card-warn"><div class="card-head">Rectal medications — contraindicated</div><div class="card-body" style="font-size:12px;font-weight:600;color:var(--red);">No rectal examination or medicines (including suppositories/enemas) — risk of bacteraemia.</div></div>
+  </div>
+  <div id="ns-immuno" class="ns-section" style="display:none;">
+    <div class="amber-box">These regimens rarely cause neutropenia. If a patient is on additional SACT drugs not listed here — follow this guideline.</div>
+    <div class="card"><div class="card-head">NUH pure immunotherapy regimens — use High Risk Red Sepsis pathway</div><div class="card-body"><div class="chip-row">
+      <span class="chip chip-purple">Atezolizumab</span><span class="chip chip-purple">Avelumab</span><span class="chip chip-purple">Cemiplimab</span><span class="chip chip-purple">Dostarlimab</span><span class="chip chip-purple">Durvalumab</span><span class="chip chip-purple">Ipilimumab</span><span class="chip chip-purple">Ipilimumab + Nivolumab</span><span class="chip chip-purple">Nivolumab</span><span class="chip chip-purple">Pembrolizumab</span><span class="chip chip-purple">Tebentefusp</span>
+    </div></div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     GUIDELINE: CINV
+══════════════════════════════════════════════════════ -->
+<div class="page" id="page-cinv">
+  <button class="back-btn" onclick="openSpec('oncology')">← Oncology</button>
+  <div class="gl-view-header">
+    <div class="gl-view-title">Antiemetics in Oncology — CINV</div>
+    <div class="gl-view-meta">
+      <span class="gl-meta-badge b-purple">Oncology</span>
+      <span class="gl-meta-badge b-gray">REF:1490 · v7</span>
+      <span class="gl-meta-badge b-green">Current · Review Feb 2028</span>
+    </div>
+    <div class="gl-view-actions"><button class="gl-action-btn">☆ Favourite</button><button class="gl-action-btn pdf">↗ Full PDF</button></div>
+  </div>
+  <div class="gl-nav">
+    <button class="gl-nav-btn active" onclick="glNav(this,'cinv-risk')">Emetic risk</button>
+    <button class="gl-nav-btn" onclick="glNav(this,'cinv-regimens')">Regimens</button>
+    <button class="gl-nav-btn" onclick="glNav(this,'cinv-drugs')">Drug info</button>
+  </div>
+  <div id="cinv-risk">
+    <div class="info-box">Choose antiemetic regimen based on the <strong>highest emetic risk drug</strong> in the regimen. Record severity/duration after each cycle using CTCAE grading.</div>
+    <div class="card">
+      <div class="card-head">Classification of emetogenic potential</div>
+      <div class="card-body">
+        <div class="risk-grid">
+          <div class="risk-band risk-high"><div class="risk-label">High</div><div class="risk-pct">&gt;90%</div><div class="risk-drugs">Cisplatin · Dacarbazine · Carmustine<br>Cyclophosphamide ≥1500mg/m²<br>AC/EC/FEC/CHOP · BEP · ECF/ECX<br>MVAC · TPF · Anthracycline/cyclophos</div></div>
+          <div class="risk-band risk-mod"><div class="risk-label">Moderate</div><div class="risk-pct">30–90%</div><div class="risk-drugs">Carboplatin × · Oxaliplatin · Irinotecan<br>Doxorubicin · Epirubicin · Ifosfamide<br>Cyclophosphamide (oral)<br>Temozolomide (oral) · Cytarabine &gt;1g/m²</div></div>
+          <div class="risk-band risk-low"><div class="risk-label">Low</div><div class="risk-pct">10–30%</div><div class="risk-drugs">Docetaxel · Paclitaxel · Gemcitabine<br>Fluorouracil · Etoposide · Pemetrexed<br>Capecitabine (oral) · Liposomal doxo<br>Topotecan · Mitomycin</div></div>
+          <div class="risk-band risk-min"><div class="risk-label">Minimal</div><div class="risk-pct">&lt;10%</div><div class="risk-drugs">Bevacizumab · Rituximab · Trastuzumab<br>Pembrolizumab · Nivolumab · Bleomycin<br>Vincristine · Vinorelbine IV · Erlotinib<br>Gefitinib · Sorafenib</div></div>
+        </div>
+        <div style="margin-top:8px;font-size:10px;color:var(--muted2);">× Carboplatin ≥AUC 4 can be considered highest risk in moderate group. Separate guidelines exist for haematological malignancies.</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head">Patient risk factors</div>
+      <div class="card-body">
+        <table class="dt">
+          <tr><td class="l">Increased CINV risk</td><td class="v">Age &lt;50 · Female · Motion sickness · Pregnancy sickness · Previous poor control · Poor QoL</td></tr>
+          <tr><td class="l">Reduced CINV risk</td><td class="v">Male · History of heavy alcohol intake</td></tr>
+          <tr><td class="l">Contributing factors</td><td class="v">Concurrent RT · Opioids · Antimicrobials · Electrolyte disturbance · Constipation · Brain/liver mets</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div id="cinv-regimens" style="display:none;">
+    <div class="info-box">Match chemotherapy emetogenicity to regimen below. For combination regimens not listed, use the highest emetic risk drug.</div>
+    <div class="card card-warn">
+      <div class="card-head">High emetic risk</div>
+      <div class="card-body">
+        <div class="reg-row">
+          <div class="reg-col"><div class="reg-col-title">Pre-chemotherapy</div><div class="reg-col-body"><span class="hl">Dexamethasone 8mg IV</span><br><span class="hl">Ondansetron‡ 8mg PO or IV</span><br>Consider NK1 antagonist 60min prior</div></div>
+          <div class="reg-col"><div class="reg-col-title">Post-chemotherapy</div><div class="reg-col-body"><span class="hl">Metoclopramide 10mg TDS PO × 5 days</span><br>OR Domperidone 10mg TDS PO × 7 days (if &lt;40yrs)<br><span class="hl">Dexamethasone 4mg BD PO × 3 days</span></div></div>
+        </div>
+        <div class="divider"></div>
+        <div style="font-size:10px;color:var(--muted);margin-bottom:5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;">Second line if not controlled:</div>
+        <div style="font-size:11px;color:var(--muted2);line-height:1.7;">Add ondansetron 8mg BD PO × 3 days · Increase dex IV to 16mg · Consider NK1 antagonist if not already given · Add olanzapine 10mg PO day of chemo then 10mg OD days 2–4 (5mg if sedation issue) · Consider cyclizine 50mg TDS PO or levomepromazine up to 6mg QDS PO</div>
+      </div>
+    </div>
+    <div class="card card-amber">
+      <div class="card-head">Moderate emetic risk</div>
+      <div class="card-body">
+        <div class="reg-row">
+          <div class="reg-col"><div class="reg-col-title">Pre-chemotherapy</div><div class="reg-col-body"><span class="hl">Dexamethasone 8mg IV</span><br><span class="hl">Ondansetron 8mg IV or PO</span></div></div>
+          <div class="reg-col"><div class="reg-col-title">Post-chemotherapy</div><div class="reg-col-body"><span class="hl">Metoclopramide 10mg TDS PO × 3 days</span> then PRN up to 5 days<br>OR Domperidone 10mg TDS PO × 3 days then PRN up to 7 days (&lt;40yrs)<br><span class="hl">Dexamethasone 4mg BD PO × 3 days</span></div></div>
+        </div>
+        <div style="margin-top:6px;font-size:11px;color:var(--muted2);">Note: olanzapine not recommended in moderate risk — insufficient evidence. Second line: consider NK1 antagonist for carboplatin ≥AUC 4.</div>
+      </div>
+    </div>
+    <div class="card card-info">
+      <div class="card-head">Low emetic risk</div>
+      <div class="card-body">
+        <div class="reg-row">
+          <div class="reg-col"><div class="reg-col-title">Pre-chemotherapy</div><div class="reg-col-body"><span class="hl">Dexamethasone 8mg IV</span></div></div>
+          <div class="reg-col"><div class="reg-col-title">Post-chemotherapy</div><div class="reg-col-body">Metoclopramide 10mg TDS PRN PO up to 5 days<br>OR Domperidone 10mg TDS PRN PO up to 7 days (&lt;40yrs)</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="card card-green">
+      <div class="card-head">Minimal emetic risk</div>
+      <div class="card-body">
+        <div class="reg-row">
+          <div class="reg-col"><div class="reg-col-title">Pre-chemotherapy</div><div class="reg-col-body">Prophylactic antiemetics <span class="hl">not necessary</span> if no history of N&V</div></div>
+          <div class="reg-col"><div class="reg-col-title">Post-chemotherapy</div><div class="reg-col-body">Metoclopramide 10mg TDS PRN PO up to 5 days<br>OR Domperidone PRN (&lt;40yrs)</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="card card-purple">
+      <div class="card-head">Anticipatory nausea and vomiting</div>
+      <div class="card-body"><div style="font-size:12px;color:var(--text);">Lorazepam 1–2mg at night on the day before chemotherapy. May be added to any antiemetic combination — <strong>should not</strong> be used as a single agent for emesis control.</div></div>
+    </div>
+    <div style="font-size:10px;color:var(--muted2);padding:4px 0;">‡ Omit ondansetron or other 5-HT3 antagonists for 5 days following Akynzeo® administration.</div>
+  </div>
+  <div id="cinv-drugs" style="display:none;">
+    <div class="info-box" style="margin-bottom:10px;">Tap any drug for cautions, interactions, and available preparations.</div>
+    <div class="card">
+      <div class="card-head">Drug information</div>
+      ${[
+        {name:'Dexamethasone',color:'var(--amber)',body:'<strong>Cautions:</strong> Take orally after food (GI side-effects) · Doses morning & lunchtime (reduce sleep disturbance) · Monitor glucose in diabetes · Short-course SE rare<br><strong>Interactions:</strong> Rifampicin/carbamazepine/phenytoin reduce effect · Reduces indinavir/saquinavir plasma levels · Significant interaction with NK1 antagonists (see NK1 section)<br><strong>Routes:</strong> IV/SC injection · Oral tablets and solution'},
+        {name:'Ondansetron (5-HT3 antagonist)',color:'var(--accent)',body:'<strong>Cautions:</strong> Constipation (caution sub-acute obstruction) · QT prolongation (caution cardiac arrhythmia, electrolyte disturbance) · IV max single dose 8mg in ≥75yrs · Max 8mg/day in moderate-severe hepatic impairment<br><strong>Interactions:</strong> CYP3A4 inducers (phenytoin, carbamazepine, rifampicin) reduce levels · QT-prolonging drugs — additive · Contraindicated with apomorphine<br><strong>Routes:</strong> IV (dilute to 50mL over 15min) · Oral tablets/solution/soluble — routes therapeutically equivalent'},
+        {name:'NK1 antagonists (Akynzeo/Aprepitant/Fosaprepitant)',color:'var(--purple)',body:'<strong>Class includes:</strong> Akynzeo® (netupitant 300mg/palonosetron 0.5mg) · Aprepitant (oral) · Fosaprepitant (IV, D1 only)<br><strong>Indications:</strong> High emetic risk (cisplatin-based) · Moderate risk (carboplatin) · Regimens marked * in section 4.1<br><strong>Cautions:</strong> Moderate-severe hepatic impairment · Infusion reactions and phlebitis with fosaprepitant<br><strong>Key interactions:</strong> Dexamethasone dose reduced ~50% if total >16mg/day · Pimozide/terfenadine/cisapride — contraindicated · CYP3A4 substrates (ciclosporin, fentanyl, etoposide) — caution · Avoid grapefruit with aprepitant'},
+        {name:'Olanzapine',color:'var(--purple)',body:'<strong>Use:</strong> Unlicensed as antiemetic but well supported by evidence. High emetic risk only (insufficient evidence for moderate).<br><strong>Dose:</strong> 10mg PO day of chemo + days 2–4. Consider 5mg if sedation is an issue.<br><strong>Cautions:</strong> Sedation (more on day 2 than placebo) · Hyperglycaemia risk (↑↑ with dexamethasone co-administration) · QTc prolongation — caution in elderly, pre-existing QT prolongation, CCF, hypokalaemia'},
+        {name:'Metoclopramide',color:'var(--amber)',body:'<strong>MHRA:</strong> Limit to 30mg/24hr and max 5 days (extendable on consultant request) · Avoid in young patients (dystonic reactions) · Avoid in Parkinson\'s disease · Do not use if GI haemorrhage/obstruction/perforation/phaeochromocytoma<br><strong>Cautions:</strong> IV route — increased cardiovascular risk · Extrapyramidal reactions (usually dystonic type)<br><strong>Interactions:</strong> Antipsychotics — increased EPS risk · Increases ciclosporin plasma levels'},
+        {name:'Domperidone',color:'var(--amber)',body:'<strong>MHRA:</strong> Limit to 30mg/24hr and max 7 days (extendable on consultant request) · Preferred over metoclopramide in patients under 40 (less EPS)<br><strong>Cautions:</strong> QT prolongation risk — higher in >60yrs and at doses >30mg/day · Do not use in prolactinoma · Do not use if GI haemorrhage/obstruction/perforation<br><strong>Interactions:</strong> Avoid ketoconazole/erythromycin (CYP3A4 inhibitors + QT prolongation)'},
+        {name:'Cyclizine',color:'var(--teal)',body:'<strong>Cautions:</strong> Drowsiness/blurred vision/dry mouth · Caution in glaucoma, GI obstruction, hepatic disease, epilepsy, prostatic hypertrophy<br><strong>Note:</strong> Counteracts prokinetic effect of metoclopramide (but not its central antiemetic effect) — avoid combining<br><strong>Routes:</strong> IV/SC · Oral tablets'},
+        {name:'Levomepromazine',color:'var(--purple)',body:'<strong>Cautions:</strong> Drowsiness/disorientation — avoid driving · Hypotension (especially elderly) · QT prolongation · Hyperglycaemia<br><strong>Dose as antiemetic:</strong> up to 6mg QDS PO<br><strong>Via syringe driver:</strong> 12.5–25mg/24hr SC<br><strong>Routes:</strong> SC injection · Oral tablets'},
+        {name:'Lorazepam',color:'var(--green)',body:'<strong>Use:</strong> Anticipatory N&V · Add to antiemetic combination, not as sole agent<br><strong>Dose:</strong> 1–2mg at night the day before chemotherapy<br><strong>Cautions:</strong> Drowsiness/light-headedness/confusion (especially elderly) · Contraindicated in acute pulmonary insufficiency, severe hepatic impairment<br><strong>Interactions:</strong> Increased sedation with alcohol or opioids'}
+      ].map(d => `
+        <div class="drug-item">
+          <div class="drug-item-head" onclick="toggleDrug(this)">
+            <span style="display:flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;border-radius:50%;background:${d.color};flex-shrink:0;"></span>${d.name}</span>
+            <span class="drug-chevron">›</span>
+          </div>
+          <div class="drug-item-body" style="font-size:11px;color:var(--muted2);line-height:1.6;">${d.body}</div>
+        </div>
+      `).join('')}
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     GUIDELINE: CHEMOTHERAPY-INDUCED DIARRHOEA
+══════════════════════════════════════════════════════ -->
+<div class="page" id="page-diarrhoea">
+  <button class="back-btn" onclick="openSpec('oncology')">← Oncology</button>
+  <div class="gl-view-header">
+    <div class="gl-view-title">Management of Diarrhoea Post Chemo/Radiotherapy</div>
+    <div class="gl-view-meta">
+      <span class="gl-meta-badge b-purple">Oncology</span>
+      <span class="gl-meta-badge b-gray">REF:1837 · May 2020</span>
+      <span class="gl-meta-badge" style="background:#f5a62320;color:var(--amber);">Review overdue</span>
+    </div>
+    <div class="gl-view-actions"><button class="gl-action-btn">☆ Favourite</button><button class="gl-action-btn pdf">↗ Full PDF</button></div>
+  </div>
+  <div class="gl-nav">
+    <button class="gl-nav-btn active" onclick="glNav(this,'dia-grade')">Grading</button>
+    <button class="gl-nav-btn" onclick="glNav(this,'dia-sact')">SACT diarrhoea</button>
+    <button class="gl-nav-btn" onclick="glNav(this,'dia-rt')">Radiation diarrhoea</button>
+    <button class="gl-nav-btn" onclick="glNav(this,'dia-fp')">Fluoropyrimidines</button>
+    <button class="gl-nav-btn" onclick="glNav(this,'dia-immuno')">Immunotherapy</button>
+  </div>
+  <div id="dia-grade">
+    <div class="alert-box">Treat aggressively — early intervention prevents life-threatening dehydration and renal failure. Neutropenic patients + diarrhoea = high risk of Gram-negative sepsis → urgent admission.</div>
+    <div class="card">
+      <div class="card-head">NCI CTCAE v5 grading — diarrhoea</div>
+      <div class="card-body">
+        <div class="grade-row">
+          <div class="grade-chip g0"><div class="grade-num">0</div><div class="grade-text">None</div></div>
+          <div class="grade-chip g1"><div class="grade-num">1</div><div class="grade-text">&lt;4 loose stools/day over baseline · Mild ostomy ↑</div></div>
+          <div class="grade-chip g2"><div class="grade-num">2</div><div class="grade-text">4–6 stools/day · Moderate ostomy ↑ · Limits instrumental ADL</div></div>
+          <div class="grade-chip g3"><div class="grade-num">3</div><div class="grade-text">≥7 stools/day · Hospitalisation · Limits self-care ADL</div></div>
+          <div class="grade-chip g4"><div class="grade-num">4</div><div class="grade-text">Life-threatening · Urgent intervention</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head">SACT type — categorise first</div>
+      <div class="card-body">
+        <table class="dt">
+          <tr><td class="l">Pure immunotherapy</td><td class="v">Ipilimumab, pembrolizumab, nivolumab etc. → see Immunotherapy tab</td></tr>
+          <tr><td class="l">Combined immuno + cytotoxic</td><td class="v">See immunotherapy tab AND SACT section</td></tr>
+          <tr><td class="l">Fluoropyrimidines</td><td class="v">5-FU / Capecitabine → see Fluoropyrimidines tab</td></tr>
+          <tr><td class="l">TKIs (afatinib, imatinib, sunitinib etc.)</td><td class="v">Usually mild–moderate. See SACT management + individual prescribing guidelines</td></tr>
+          <tr><td class="l">Hormonal agents alone</td><td class="v">Neutropenic sepsis unlikely — manage as below without step 2a</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div id="dia-sact" style="display:none;">
+    <div class="card card-warn">
+      <div class="card-head">Initial investigation — non-immunotherapy SACT</div>
+      <div class="card-body">
+        <table class="dt">
+          <tr><td class="l">Fever ≥38°C</td><td class="vr">Patient may be neutropenic → urgent admission · Follow neutropenic sepsis policy · Stool for C&S + C. diff</td></tr>
+          <tr><td class="l">Suspected infective diarrhoea</td><td class="va">Stool for MC&S + C. diff toxin · Maintain hydration (may need admission) · C. diff risk if recent ABx</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="card card-info">
+      <div class="card-head">Management if infective/immunotherapy/fluoropyrimidine causes excluded</div>
+      <div class="card-body">
+        <div class="step"><div class="step-n">1</div><div class="step-t">Review medications contributing to diarrhoea (laxatives, antacids, metoclopramide, domperidone)</div></div>
+        <div class="step"><div class="step-n">2</div><div class="step-t">Exclude overflow diarrhoea from severe constipation</div></div>
+        <div class="step"><div class="step-n">3</div><div class="step-t">Increase clear fluids; low residue diet; avoid dairy</div></div>
+        <div class="divider"></div>
+        <table class="dt">
+          <tr><td class="l">Grade 1 (irinotecan)</td><td class="v">Loperamide 4mg PO then 2mg every 2hr — continue 12hr after last loose stool</td></tr>
+          <tr><td class="l">Grade 1 (&gt;12–24hr) or grade 2</td><td class="v">Loperamide 4mg then 2mg every 2hr (max 16mg/day)</td></tr>
+          <tr><td class="l">Grade 1–2 not controlled by loperamide</td><td class="v">Add codeine phosphate 30mg PO every 6hr, increase to 60mg if needed</td></tr>
+          <tr><td class="l">Grade 1–2 not responding after 24hr</td><td class="va">Consider hospital admission for IV hydration</td></tr>
+          <tr><td class="l">Grade 3–4</td><td class="vr">Hospital admission · IV hydration · Stop ongoing oral/infusional cytotoxics · Loperamide + codeine as above · Consider octreotide</td></tr>
+        </table>
+        <div class="divider"></div>
+        <div style="font-size:11px;color:var(--muted2);">Octreotide: 100–150 micrograms SC TDS or 300–500 micrograms SC over 24hr. Discuss with SpR/consultant.<br>⚠ Stop anti-diarrhoeals within 12hr of last loose stool — continuing can cause severe ileus.</div>
+      </div>
+    </div>
+    <div class="card card-amber">
+      <div class="card-head">Cautions in neutropenic patients</div>
+      <div class="card-body" style="font-size:12px;font-weight:500;color:var(--amber);">No rectal examination or medicines — risk of bacteraemia. No suppositories, enemas, or internal faecal collection systems.</div>
+    </div>
+  </div>
+  <div id="dia-rt" style="display:none;">
+    <div class="card card-info">
+      <div class="card-head">Acute radiation enteritis</div>
+      <div class="card-body">
+        <div style="font-size:11px;color:var(--muted2);margin-bottom:8px;line-height:1.5;">Develops during or after week 2 of RT, lasts up to 2 weeks post-completion. More severe with previous abdominal surgery or large bowel volume in field.</div>
+        <table class="dt">
+          <tr><td class="l">Grade 1 (&gt;12–24hr) or grade 2</td><td class="v">Loperamide 4mg PO then 2mg every 2hr (max 16mg/day)</td></tr>
+          <tr><td class="l">Grade 1–2 not controlled by loperamide</td><td class="v">Add codeine phosphate 30–60mg PO every 6hr</td></tr>
+          <tr><td class="l">Grade 1–2 not responding after 24hr</td><td class="va">Consider admission for IV hydration · Discuss stopping RT</td></tr>
+          <tr><td class="l">Grade 3–4</td><td class="vr">Admit · IV hydration · Stop radiotherapy · Loperamide + codeine · Consider octreotide 150mcg SC TDS</td></tr>
+        </table>
+        <div style="margin-top:6px;font-size:11px;color:var(--muted2);">Prostate RT only: consider ispaghula husk sachets (Fybogel) to reduce constipation.</div>
+      </div>
+    </div>
+    <div class="card card-warn">
+      <div class="card-head">Acute radiation proctitis</div>
+      <div class="card-body">
+        <div style="font-size:11px;color:var(--muted2);margin-bottom:7px;">Tenesmus, diarrhoea, occasional rectal bleeding. Develops week 2+ of RT.</div>
+        <table class="dt">
+          <tr><td class="l">Diet</td><td class="v">Low residue · Avoid alcohol</td></tr>
+          <tr><td class="l">Stool softeners</td><td class="v">If pain on defecation + no severe diarrhoea</td></tr>
+          <tr><td class="l">Proctosedyl ointment</td><td class="v">Consider — stop enemas</td></tr>
+          <tr><td class="l">Sucralfate prophylaxis</td><td class="vr">DO NOT USE — ineffective and may worsen proctitis</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head">Late radiation effects — referral required</div>
+      <div class="card-body">
+        <table class="dt">
+          <tr><td class="l">Chronic radiation enteritis</td><td class="v">Small bowel dose ≥45Gy · Abdo pain, perforation, fistula, obstruction, chronic diarrhoea · Refer gastroenterology (radiation enteritis specialist)</td></tr>
+          <tr><td class="l">Chronic radiation proctitis</td><td class="va">≥6 months after RT · Tenesmus, diarrhoea, rectal bleeding, stricture · Refer gastroenterology</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div id="dia-fp" style="display:none;">
+    <div class="alert-box">Fluoropyrimidine diarrhoea can be life-threatening. Grade 3+ requires hospital admission. Check DPYD status before starting treatment.</div>
+    <div class="card card-warn">
+      <div class="card-head">DPYD testing</div>
+      <div class="card-body">
+        <div style="font-size:12px;color:var(--muted2);line-height:1.6;">DPD deficiency may be cause of fluoropyrimidine-associated diarrhoea. Confirm patient's DPYD status. If unknown, partial, mutant or negative → consider uridine triacetate if criteria met. See SOP for DPD testing at NUH.</div>
+      </div>
+    </div>
+    <div class="card card-amber">
+      <div class="card-head">Grade 2 (4–6 stools/day) — able to maintain oral fluids</div>
+      <div class="card-body">
+        <div class="step"><div class="step-n">1</div><div class="step-t">Review history (medication, dietary intake) — may include telephone review</div></div>
+        <div class="step"><div class="step-n">2</div><div class="step-t">Assess for C. diff (if recent ABx or positive history) — send stool if indicated</div></div>
+        <div class="step"><div class="step-n">3</div><div class="step-t">Review loperamide compliance; reinforce maximal doses if not taken</div></div>
+        <div class="step"><div class="step-n">4</div><div class="step-t">Capecitabine patients — discuss with oncology SpR/consultant re: stop or continue</div></div>
+        <div class="step"><div class="step-n">5</div><div class="step-t">Bloods: FBC, U&E, LFT, Bone, Mg, CRP; stool for C. diff toxin + MC&S</div></div>
+        <div class="step"><div class="step-n">6</div><div class="step-t">If stable → discharge with strict return instructions if worsening</div></div>
+      </div>
+    </div>
+    <div class="card card-warn">
+      <div class="card-head">Grade 3+ (≥7 stools/day) or grade 2 in frail/unable to maintain fluids — admit</div>
+      <div class="card-body">
+        <div class="step"><div class="step-n" style="background:#e8545420;color:var(--red);">1</div><div class="step-t"><span class="hl">Stop capecitabine</span> — store patient's supply securely for potential later use</div></div>
+        <div class="step"><div class="step-n">2</div><div class="step-t">Cannulate · Bloods: FBC, U&E, LFT, Bone, Mg, CRP, clotting + glucose/TFTs as indicated</div></div>
+        <div class="step"><div class="step-n">3</div><div class="step-t">Stool: C. diff toxin + MC&S</div></div>
+        <div class="step"><div class="step-n">4</div><div class="step-t">IV fluids — adjust to keep K⁺ &gt;4 mmol/L · ABG if metabolic acidosis suspected</div></div>
+        <div class="step"><div class="step-n">5</div><div class="step-t">Nil by mouth until symptoms settle (sips to swallow medication permitted)</div></div>
+        <div class="step"><div class="step-n">6</div><div class="step-t">Strict fluid balance · Stool chart · Daily weights</div></div>
+        <div class="step"><div class="step-n">7</div><div class="step-t">Regular loperamide 2–4mg PO 4–8× day; if no improvement &gt;24hr or &gt;Grade 2 → add codeine 60mg PO QDS. SC codeine if oral not tolerated.</div></div>
+        <div class="step"><div class="step-n">8</div><div class="step-t">Prokinetic antiemetics (metoclopramide, domperidone) — avoid where possible. Prescribe parenterally where possible.</div></div>
+        <div class="step"><div class="step-n">9</div><div class="step-t">Octreotide 300mcg SC over 24hr if not improving — discuss with SpR/consultant. Review daily up to max 1500mcg/24hr.</div></div>
+        <div class="step"><div class="step-n">10</div><div class="step-t">Daily bloods (FBC, U&E, LFT, Bone, Mg) for 72hr. Consider CXR/AXR if pain/distension. Reduce cytotoxic dose next cycle.</div></div>
+      </div>
+    </div>
+  </div>
+  <div id="dia-immuno" style="display:none;">
+    <div class="info-box">Diarrhoea on checkpoint inhibitors may indicate immune-mediated colitis. Can occur at any time including months after last dose.</div>
+    <div class="card card-warn">
+      <div class="card-head">Immunotherapy-associated diarrhoea — key principles</div>
+      <div class="card-body">
+        <div class="step"><div class="step-n">1</div><div class="step-t"><span class="hl">All cases must be discussed with a senior oncology clinician</span></div></div>
+        <div class="step"><div class="step-n">2</div><div class="step-t">Send stool for enteropathogens + C. diff toxin (exclude infection)</div></div>
+        <div class="step"><div class="step-n">3</div><div class="step-t">Close monitoring and early intervention are essential to prevent progression</div></div>
+        <div class="step"><div class="step-n">4</div><div class="step-t">Preventative budesonide — no benefit</div></div>
+        <div class="step"><div class="step-n">5</div><div class="step-t">Combination therapy causes earlier and more frequent symptoms than single agents</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head">Checkpoint inhibitor agents</div>
+      <div class="card-body"><div class="chip-row">
+        <span class="chip chip-purple">Ipilimumab</span><span class="chip chip-purple">Pembrolizumab</span><span class="chip chip-purple">Nivolumab</span><span class="chip chip-purple">Durvalumab</span><span class="chip chip-purple">Avelumab</span><span class="chip chip-purple">Atezolizumab</span><span class="chip chip-purple">Cemiplimab</span>
+      </div></div>
+    </div>
+    <div class="amber-box">Management per Clinical Guidelines for Immunotherapy (ICPI) Related Toxicity for Solid Tumours — available on NUH intranet.</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     GUIDELINE: CHEMICAL PLEURODESIS
+══════════════════════════════════════════════════════ -->
+<div class="page" id="page-pleurodesis">
+  <button class="back-btn" onclick="openSpec('resp')">← Respiratory</button>
+  <div class="gl-view-header">
+    <div class="gl-view-title">Chemical Pleurodesis</div>
+    <div class="gl-view-meta">
+      <span class="gl-meta-badge" style="background:#1dc9a020;color:var(--teal);">Respiratory</span>
+      <span class="gl-meta-badge b-gray">Nursing & Clinical Procedure Guide</span>
+      <span class="gl-meta-badge b-green">Current</span>
+    </div>
+    <div class="gl-view-actions"><button class="gl-action-btn">☆ Favourite</button><button class="gl-action-btn pdf">↗ Full PDF</button></div>
+  </div>
+  <div class="gl-nav">
+    <button class="gl-nav-btn active" onclick="glNav(this,'pl-summary')">At a glance</button>
+    <button class="gl-nav-btn" onclick="glNav(this,'pl-equipment')">Equipment</button>
+    <button class="gl-nav-btn" onclick="glNav(this,'pl-steps')">Procedure steps</button>
+    <button class="gl-nav-btn" onclick="glNav(this,'pl-safety')">Safety</button>
+  </div>
+  <div id="pl-summary">
+    <div class="alert-box">⚠ A BUBBLING CHEST DRAIN MUST <strong>NEVER</strong> BE CLAMPED — risk of fatal tension pneumothorax.</div>
+    <div class="card card-teal">
+      <div class="card-head">At-a-glance key facts</div>
+      <div class="card-body">
+        <table class="dt">
+          <tr><td class="l">Analgesia pre-procedure</td><td class="vg">5–10mg oramorph, 1 hour before. Avoid NSAIDs where possible.</td></tr>
+          <tr><td class="l">Lidocaine dose</td><td class="v">&gt;75kg → 25ml · &lt;75kg → 20ml (1% solution, 3mg/kg, max 250mg)</td></tr>
+          <tr><td class="l">Talc dose</td><td class="v">4–5g sterile graded talc in 50ml 0.9% saline. Prepared by medic immediately prior.</td></tr>
+          <tr><td class="l">Talc stability</td><td class="va">Stable for <span class="hl">1 hour only</span> once in solution</td></tr>
+          <tr><td class="l">Post-LA wait</td><td class="v">10 minutes (elevate drain / gravity — no clamping needed)</td></tr>
+          <tr><td class="l">Best practice</td><td class="v">After instillation, keep pleura in contact with agent. Document method in notes.</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head">Why this matters</div>
+      <div class="card-body" style="font-size:12px;color:var(--muted2);line-height:1.7;">
+        <div>• Pleurodesis creates a <strong style="color:var(--text);">painful chemical pleurisy</strong> — adequate analgesia is essential (Roberts et al 2010)</div>
+        <div>• NSAIDs may reduce the inflammatory response required for pleurodesis success (Antunes et al 2003)</div>
+        <div>• Gravity avoids the need for drain clamping — which is dangerous if the drain is bubbling</div>
+        <div>• Talc must be prepared immediately prior — do not leave unattended to minimise wrong-route risk</div>
+      </div>
+    </div>
+  </div>
+  <div id="pl-equipment" style="display:none;">
+    <div class="card card-teal">
+      <div class="card-head">Equipment checklist</div>
+      <div class="card-body">
+        <div class="equip-grid">
+          <div class="equip-item"><span class="equip-icon">💊</span> Prescribed analgesia</div>
+          <div class="equip-item"><span class="equip-icon">💊</span> Prescribed premedication</div>
+          <div class="equip-item"><span class="equip-icon">🧪</span> Talc 4g with adaptor for syringe</div>
+          <div class="equip-item"><span class="equip-icon">💉</span> 1% Lidocaine solution (3mg/kg; max 25ml)</div>
+          <div class="equip-item"><span class="equip-icon">🔬</span> 2 × 50ml syringes</div>
+          <div class="equip-item"><span class="equip-icon">🧴</span> Chloraprep® wands (70% IPA + 2% chlorhexidine)</div>
+          <div class="equip-item"><span class="equip-icon">🔩</span> 2 × needles for drawing up</div>
+          <div class="equip-item"><span class="equip-icon">💧</span> 100ml 0.9% saline</div>
+          <div class="equip-item"><span class="equip-icon">🧤</span> Sterile dressing pack + sterile gloves</div>
+          <div class="equip-item"><span class="equip-icon">🔒</span> Chest drain clamps (if available)</div>
+        </div>
+        <div style="margin-top:8px;font-size:11px;color:var(--muted2);">On base wards talc is dispensed on a named-patient basis. Ensure talc and analgesia are available before starting.</div>
+      </div>
+    </div>
+  </div>
+  <div id="pl-steps" style="display:none;">
+    <div class="card card-teal">
+      <div class="card-head">Procedure — 12 steps</div>
+      <div class="card-body">
+        ${[
+          ['📝','Obtain valid informed consent','Consent by medic with knowledge of procedure. Must be documented.'],
+          ['📊','Record baseline NEWS2','Establishes baseline for ongoing monitoring.'],
+          ['💊','Consider premedication (BTS 2010)','To alleviate anxiety and reduce pain associated with pleurodesis.'],
+          ['🩻','Ensure recent CXR available (within 24 hours) — reviewed by medical staff','To confirm drain is correctly positioned and lung fully expanded.'],
+          ['🧪','Ensure prescribed talc and analgesia are available. Dose: 4–5g sterile graded talc in 50ml 0.9% NaCl','Talc must be prepared immediately prior to procedure.'],
+          ['💉','Administer prescribed analgesia — allow time for effect. Standard: 5–10mg oramorph 1hr pre-procedure. Avoid NSAIDs.','Creates painful chemical pleurisy. NSAIDs may reduce inflammatory response.'],
+          ['🔬','Draw up 1% lidocaine into a 50ml syringe and label clearly. Take directly to patient. Dosing: &gt;75kg → 25ml; &lt;75kg → 20ml','Label clearly to distinguish from talc syringe and reduce wrong-route risk.'],
+          ['⏱️','Prepare talc solution immediately prior — by medic performing procedure. Do not leave unattended.','Minimises wrong-route risk. Talc stable for 1 hour only once in solution.'],
+          ['🧴','Senior clinician draws up 50ml normal saline into labelled syringe. Inject into talc vial. Shake 5 minutes. Draw back up into labelled 50ml syringe. Take directly to bedside.','Clearly identifies solution. Reduces wrong-route error.'],
+          ['🛏️','Position patient comfortably with easy access to affected side/drain','Maintain comfort and allow access.'],
+          ['🔒','Senior clinician shuts 3-way tap or clamps/kinks drain, inserts syringe. Unclamp and administer local anaesthetic via chest drain. ⚠️ BUBBLING DRAIN MUST NEVER BE CLAMPED','Prevents air entry. Distribute anaesthetic. Clamping a bubbling drain may cause fatal tension pneumothorax.'],
+          ['⬆️','Once LA instilled, elevate drainage tube over pillows or shut 3-way tap. Leave 10 minutes.','Gravity keeps pleura in contact with LA. Prevents backflow. Avoids clamping for 10 minutes.'],
+        ].map(([icon,action,rationale],i) => `
+          <div class="proc-step">
+            <div class="proc-num">${i+1}</div>
+            <div class="proc-icon">${icon}</div>
+            <div class="proc-body">
+              <div class="proc-action">${action}</div>
+              <div class="proc-rationale">${rationale}</div>
+              ${i===10 ? '<div class="proc-warning">⚠ A BUBBLING CHEST DRAIN MUST NEVER BE CLAMPED — fatal tension pneumothorax risk</div>' : ''}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  </div>
+  <div id="pl-safety" style="display:none;">
+    <div class="alert-box" style="font-size:13px;">⚠ CRITICAL SAFETY WARNING<br>A BUBBLING CHEST DRAIN MUST NEVER BE CLAMPED.<br>Doing so risks causing a <strong>potentially fatal tension pneumothorax</strong>.</div>
+    <div class="card card-warn">
+      <div class="card-head">Key safety points</div>
+      <div class="card-body">
+        <table class="dt">
+          <tr><td class="l">Bubbling drain</td><td class="vr">NEVER clamp — tension pneumothorax risk</td></tr>
+          <tr><td class="l">NSAIDs</td><td class="va">Avoid where possible — may reduce inflammatory response required for success</td></tr>
+          <tr><td class="l">Talc stability</td><td class="va">Stable 1hr only once in solution — prepare immediately prior, do not leave unattended</td></tr>
+          <tr><td class="l">Syringe labelling</td><td class="v">Label clearly immediately on drawing up — LA and talc syringes must be distinguished</td></tr>
+          <tr><td class="l">Wrong-route prevention</td><td class="v">Medic takes syringe directly to bedside. Do not leave unattended at any stage.</td></tr>
+          <tr><td class="l">Consent</td><td class="v">Valid informed consent by medic with procedure knowledge — documented in notes</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head">References</div>
+      <div class="card-body" style="font-size:11px;color:var(--muted2);line-height:1.7;">
+        <div>• Antunes et al (2003): NSAIDs may reduce inflammatory response in pleurodesis</div>
+        <div>• BTS (2010): Guidelines on premedication for pleurodesis</div>
+        <div>• Roberts et al (2010): Pleurodesis creates a painful chemical pleurisy</div>
+        <div>• UK Medicines Information: Lidocaine dosing guidance</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PLACEHOLDER PAGES -->
+<div class="page" id="page-hhs"><div style="padding:32px;text-align:center;color:var(--muted);"><div style="font-size:32px;margin-bottom:12px;">🩺</div><div style="font-size:16px;font-weight:600;color:var(--text);margin-bottom:6px;">HHS Guideline</div><div style="font-size:13px;">Upload the HHS PDF to enable this guideline.</div></div></div>
+<div class="page" id="page-dka"><div style="padding:32px;text-align:center;color:var(--muted);"><div style="font-size:32px;margin-bottom:12px;">🩺</div><div style="font-size:16px;font-weight:600;color:var(--text);margin-bottom:6px;">DKA Guideline</div><div style="font-size:13px;">Upload the DKA PDF to enable this guideline.</div></div></div>
+<div class="page" id="page-calc"><div style="padding:32px;text-align:center;color:var(--muted);"><div style="font-size:32px;margin-bottom:12px;">🧮</div><div style="font-size:16px;font-weight:600;color:var(--text);margin-bottom:6px;">Calculators</div><div style="font-size:13px;">MASCC, osmolality, FRIII dose calculators coming soon.</div></div></div>
+
+</div><!-- /main -->
+</div><!-- /app -->
+
+<script>
+// ── Search index ──────────────────────────────────────────────
+const SI = [
+  {t:'neutropenic sepsis febrile neutropenia criteria fever SACT antibiotics pip taz meropenem', p:'ns', l:'Neutropenic Sepsis — criteria & antibiotics'},
+  {t:'neutropenic sepsis 24 48 hour review MASCC stopping criteria discharge', p:'ns', l:'Neutropenic Sepsis — 24–48hr review'},
+  {t:'neutropenic sepsis IV oral switch ciprofloxacin co-amoxiclav levofloxacin', p:'ns', l:'Neutropenic Sepsis — IV to oral switch'},
+  {t:'immunotherapy pembrolizumab nivolumab checkpoint inhibitor not neutropenic sepsis', p:'ns', l:'Neutropenic Sepsis — immunotherapy exclusion'},
+  {t:'CINV chemotherapy induced nausea vomiting antiemetics emetic risk', p:'cinv', l:'CINV — emetic risk classification'},
+  {t:'CINV antiemetic regimens high moderate low minimal emetic risk dexamethasone ondansetron', p:'cinv', l:'CINV — antiemetic regimens'},
+  {t:'ondansetron dexamethasone NK1 olanzapine metoclopramide domperidone cyclizine levomepromazine lorazepam drug information', p:'cinv', l:'CINV — drug information'},
+  {t:'diarrhoea chemotherapy radiotherapy grading CTCAE loperamide codeine octreotide', p:'diarrhoea', l:'Diarrhoea post chemo/RT — management'},
+  {t:'fluoropyrimidine capecitabine 5-FU diarrhoea grade 2 grade 3 DPYD DPD admission', p:'diarrhoea', l:'Diarrhoea — fluoropyrimidine specific'},
+  {t:'immunotherapy colitis ipilimumab pembrolizumab immune mediated diarrhoea', p:'diarrhoea', l:'Diarrhoea — immunotherapy colitis'},
+  {t:'radiation enteritis proctitis acute late diarrhoea radiotherapy', p:'diarrhoea', l:'Diarrhoea — radiation effects'},
+  {t:'chemical pleurodesis talc lidocaine chest drain procedure steps safety', p:'pleurodesis', l:'Chemical Pleurodesis — procedure'},
+  {t:'pleurodesis equipment checklist talc lidocaine syringes sterile', p:'pleurodesis', l:'Chemical Pleurodesis — equipment'},
+  {t:'pleurodesis safety bubbling drain clamping tension pneumothorax NSAIDs', p:'pleurodesis', l:'Chemical Pleurodesis — safety warnings'},
+];
+
+function sbSearch(q) {
+  const sr = document.getElementById('sb-sr');
+  if (!q || q.length < 2) { sr.style.display='none'; return; }
+  const hits = SI.filter(i => i.t.toLowerCase().includes(q.toLowerCase())).slice(0,6);
+  sr.style.display = 'block';
+  sr.innerHTML = hits.length
+    ? hits.map(h => `<div class="sb-sr-item" onclick="searchGo('${h.p}')">${h.l}</div>`).join('')
+    : '<div class="sb-sr-none">No results</div>';
+}
+function searchGo(p) {
+  document.getElementById('sb-si').value='';
+  document.getElementById('sb-sr').style.display='none';
+  openGL(p);
+}
+
+// ── Navigation ────────────────────────────────────────────────
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sb-item').forEach(b => b.classList.remove('active'));
+  const el = document.getElementById('page-'+id);
+  if (el) { el.classList.add('active'); document.getElementById('main').scrollTop=0; }
+  const nav = document.getElementById('nav-'+id);
+  if (nav) nav.classList.add('active');
+  else document.getElementById('nav-home').classList.add('active');
+}
+
+function openSpec(spec) {
+  showPage('spec-'+spec);
+  const nb = document.getElementById('nav-'+spec);
+  if (nb) { document.querySelectorAll('.sb-item').forEach(b=>b.classList.remove('active')); nb.classList.add('active'); }
+}
+
+function openGL(gl) {
+  const specMap={ns:'oncology',cinv:'oncology',diarrhoea:'oncology',pleurodesis:'resp',hhs:'diabetes',dka:'diabetes',calc:null};
+  showPage(gl);
+  document.querySelectorAll('.sb-item').forEach(b=>b.classList.remove('active'));
+  const spec = specMap[gl];
+  if (spec) { const nb=document.getElementById('nav-'+spec); if(nb) nb.classList.add('active'); }
+}
+
+// ── Guideline section tabs ─────────────────────────────────────
+function glNav(btn, sectionId) {
+  const page = btn.closest('.page');
+  page.querySelectorAll('.gl-nav-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  // hide all sibling sections — handle NS sections specially
+  const allSections = page.querySelectorAll('[id^="ns-"],[id^="cinv-"],[id^="dia-"],[id^="pl-"]');
+  allSections.forEach(s => s.style.display='none');
+  const target = document.getElementById(sectionId);
+  if (target) target.style.display='block';
+}
+
+// ── Drug accordion ─────────────────────────────────────────────
+function toggleDrug(head) {
+  const body = head.nextElementSibling;
+  const chev = head.querySelector('.drug-chevron');
+  const isOpen = body.classList.contains('open');
+  // close all
+  document.querySelectorAll('.drug-item-body').forEach(b => b.classList.remove('open'));
+  document.querySelectorAll('.drug-chevron').forEach(c => c.classList.remove('open'));
+  if (!isOpen) { body.classList.add('open'); chev.classList.add('open'); }
+}
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js')
+      .then(r => console.log('SW registered'))
+      .catch(e => console.log('SW failed:', e));
+  });
+}
+</script>
+</body>
+</html>

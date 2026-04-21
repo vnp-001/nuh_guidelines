@@ -1,0 +1,26 @@
+{
+  "name": "NUH Clinical Guidelines",
+  "short_name": "NUH Guidelines",
+  "description": "Nottingham University Hospitals — ClinPath quick reference guidelines",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0b0e18",
+  "theme_color": "#0b0e18",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["medical", "health"],
+  "lang": "en-GB"
+}
