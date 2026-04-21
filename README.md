@@ -52,4 +52,3 @@ To add or update a guideline:
 - Diarrhoea Post Chemo/RT (REF:1837)
 - Chemical Pleurodesis — Nursing & Clinical Procedure Guide
 
-*Built with ClinPath · NUH · Vish Naicker ST6 Clinical Oncology*
